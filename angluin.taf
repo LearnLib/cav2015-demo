@@ -1,0 +1,28 @@
+/*
+ * The DFA used as an example in Angluin's original paper
+ * "Learning Regular Sets from Queries and Counterexamples",
+ * recognizing the language over {0, 1} with an even number
+ * of 0s and 1s.
+ */
+dfa {0, 1} {
+	// q0: even number of 0s and 1s
+	q0 [initial,accepting] {
+		0 -> q1
+		1 -> q2
+	}
+	// q1: odd number of 0s, even number of 1s
+	q1 {
+		0 -> q0
+		1 -> q3
+	}
+	// q2: even number of 0s, odd number of 1s
+	q2 {
+		0 -> q3
+		1 -> q0
+	}
+	// q3: odd number of both 0s and 1s
+	q3 {
+		0 -> q1
+		1 -> q2
+	}
+}

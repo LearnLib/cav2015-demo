@@ -1,0 +1,63 @@
+/*
+ * The coffee machine example, presented in the paper
+ * "An Introduction to Automata Learning from a Practical Perspective"
+ * by Steffen et al.
+ */
+// An automaton declaration consists of either 'mealy' or 'dfa', followed
+// by the input alphabet
+mealy {clean, pod, water, button} {
+	// A state declaration has the form <id> [<options>] { <transitions> }
+	// The options are optional, use 'initial' for the initial state.
+	// Initial state: clean, no pod, no water
+	a [initial] {
+		// A transition in the Mealy case have the form
+		// <input> / <output> -> <target>
+		// The '/ <output>' part is optional, and can be omitted for quiescence
+		clean / ok -> a
+		pod / ok -> b
+		water / ok -> c
+		// The '*' means 'all other transitions'. It has to be the
+		// last transition declaration in a transition block.
+		* / error -> f
+	}
+	// pod inserted, no water
+	b {
+		pod / ok -> b
+		water / ok -> d1
+		clean / ok -> a
+		* / error -> f
+	}
+	// water inserted, no pod
+	c {
+		water / ok -> c
+		pod / ok -> d2
+		clean / ok -> a
+		* / error -> f
+	}
+	// pod and water (1)
+	d1 {
+		// It is also possible to group several inputs in a
+		// transition declaration
+		{water, pod} / ok -> d1
+		button / "coffee!" -> e
+		* / error -> f
+	}
+	// pod and water (2)
+	d2 {
+		{water, pod} / ok -> d2
+		// Both input and outputs can also contain special characters
+		// and whitespaces. However, in this case they have to be enquoted
+		// using double quotes.
+		button / "coffee!" -> e
+		* / error -> f
+	}
+	// produced coffee!
+	e {
+		clean / ok -> a
+		* / error -> f
+	}
+	// Failure state
+	f {
+		* / error -> f
+	}
+}
