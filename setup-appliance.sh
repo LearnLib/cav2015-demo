@@ -46,7 +46,7 @@ LLJL_TAG="develop" # TODO change
 
 DEMO_SRC="${SOURCES}/learnlib-cav2015"
 DEMO_URL="https://github.com/LearnLib/cav2015-demo.git"
-DEMO_TAG="develop" # TODO change
+DEMO_TAG="master" # TODO change
 
 info "Setting up machine for LearnLib demonstration. You may be prompted for your password."
 info "Press any key to begin, or press Ctrl+C to cancel."
