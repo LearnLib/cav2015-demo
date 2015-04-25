@@ -45,7 +45,7 @@ LLJL_URL="https://github.com/LearnLib/learnlib-jlearn.git"
 LLJL_TAG="develop" # TODO change
 
 DEMO_SRC="${SOURCES}/learnlib-cav2015"
-DEMO_URL="https://github.com/LearnLib/learnlib-cav2015.git"
+DEMO_URL="https://github.com/LearnLib/cav2015-demo.git"
 DEMO_TAG="develop" # TODO change
 
 info "Setting up machine for LearnLib demonstration. You may be prompted for your password."
