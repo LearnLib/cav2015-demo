@@ -123,7 +123,7 @@ public class JLearn {
 				return new JLearnAngluinMealy<>(alphabet, oracle, JLearnSplitterCreator.RIVEST_STYLE);
 			}
 		});
-		addLearner(new Learner("dt", 3) {
+		addLearner(new Learner("dt", 4) {
 			@Override
 			public <I, O> MealyLearner<I, O> createLearnLibLearner(
 					Alphabet<I> alphabet, MembershipOracle<I, Word<O>> oracle) {
@@ -135,7 +135,7 @@ public class JLearn {
 				return new JLearnObservationPackMealy<>(alphabet, oracle, JLearnSplitterCreator.RIVEST_STYLE);
 			}
 		});
-		addLearner(new Learner("dhc", 4) {
+		addLearner(new Learner("dhc", 3) {
 			@Override
 			public <I, O> MealyLearner<I, O> createLearnLibLearner(
 					Alphabet<I> alphabet, MembershipOracle<I, Word<O>> oracle) {

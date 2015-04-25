@@ -1,0 +1,26 @@
+set xtics ("L*" 0.25, "L*Col" 1.25, "RS" 2.25, "KV" 3.25, "KVB" 4.25)
+
+set boxwidth 0.4
+set style fill solid
+
+set ylabel 'Time (ms)'
+set grid ytics lt 0 lw 1 lc rgb "#bbbbbb"
+
+# set key off
+set yrange [0:*]
+set xrange [-0.5:5]
+
+set terminal svg size 640,400 fname 'Verdana' fsize 14
+list=system('ls -1B *.dat')
+
+do for [f in list] {
+	n=f[:strlen(f)-4]
+	set ylabel 'Time (s)'
+	set output n.'-time.svg'
+	plot n.'.dat' using 2:($3/1000) with boxes ls 3 title 'LearnLib',\
+		'' using ($2+0.4):($5/1000) with boxes ls 1 title 'LibAlf'
+	set ylabel 'Queries'
+	set output n.'-queries.svg'
+	plot n.'.dat' using 2:4 with boxes ls 3 title 'LearnLib',\
+		'' using ($2+0.4):6 with boxes ls 1 title 'LibAlf'
+}

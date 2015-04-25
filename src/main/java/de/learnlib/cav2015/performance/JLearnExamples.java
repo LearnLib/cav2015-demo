@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
 
@@ -105,33 +106,35 @@ public class JLearnExamples implements CLITool {
 		for (JLearn.Learner learnerPair : learners) {
 			String learnerName = learnerPair.getName();
 			int learnerId = learnerPair.getId();
-			
+
 			LongSummaryStatistics timeLearnlib = new LongSummaryStatistics();
 			LongSummaryStatistics queriesLearnlib = new LongSummaryStatistics();
 			LongSummaryStatistics timeJLearn = new LongSummaryStatistics();
 			LongSummaryStatistics queriesJLearn = new LongSummaryStatistics();
 
-			
-			for (int i = 0; i < repeatCount; i++) {			
+			for (int i = 0; i < repeatCount; i++) {
 				System.out.print(learnerName + " #" + i + " ... ");
 				System.out.flush();
 
 				System.gc();
-				
+
 				// LearnLib
 				{
-					MealyCounterOracle<I,O> directCounterOracle = new MealyCounterOracle<>(directOracle, "MQs");
-					
-					MembershipOracle.MealyMembershipOracle<I,O> cacheOracle
-						= MealyCaches.createTreeCache(alphabet, directCounterOracle);
-					
-					MealyLearner<I,O> learnlibLearner = learnerPair.createLearnLibLearner(alphabet, cacheOracle);
+					MealyCounterOracle<I, O> directCounterOracle = new MealyCounterOracle<>(
+							directOracle, "MQs");
+
+					MembershipOracle.MealyMembershipOracle<I, O> cacheOracle = MealyCaches
+							.createTreeCache(alphabet, directCounterOracle);
+
+					MealyLearner<I, O> learnlibLearner = learnerPair
+							.createLearnLibLearner(alphabet, cacheOracle);
 					long learnLibMs = runLearner(example, learnlibLearner);
-					System.out.print(learnLibMs + "ms (" + directCounterOracle.getCount() + "MQs)");
+					System.out.print(learnLibMs + "ms ("
+							+ directCounterOracle.getCount() + "MQs)");
 					System.out.flush();
 					timeLearnlib.accept(learnLibMs);
 					queriesLearnlib.accept(directCounterOracle.getCount());
-					
+
 					learnlibLearner = null;
 					cacheOracle = null;
 					directCounterOracle = null;
@@ -140,29 +143,33 @@ public class JLearnExamples implements CLITool {
 
 				// JLearn
 				{
-					MealyCounterOracle<I,O> jlearnCounterOracle = new MealyCounterOracle<>(directOracle, "MQs");
-					
-					MembershipOracle.MealyMembershipOracle<I, O> jlearnCacheOracle
-						= MealyCaches.createTreeCache(alphabet, jlearnCounterOracle);
-					
-					MealyLearner<I,O> jlearnLearner = learnerPair.createJLearnLearner(alphabet, jlearnCacheOracle);
+					MealyCounterOracle<I, O> jlearnCounterOracle = new MealyCounterOracle<>(
+							directOracle, "MQs");
+
+					MembershipOracle.MealyMembershipOracle<I, O> jlearnCacheOracle = MealyCaches
+							.createTreeCache(alphabet, jlearnCounterOracle);
+
+					MealyLearner<I, O> jlearnLearner = learnerPair
+							.createJLearnLearner(alphabet, jlearnCacheOracle);
 					long jlearnMs = runLearner(example, jlearnLearner);
-					System.out.println(" / " + jlearnMs + "ms (" + jlearnCounterOracle.getCount() + " MQs)");
+					System.out.println(" / " + jlearnMs + "ms ("
+							+ jlearnCounterOracle.getCount() + " MQs)");
 					timeJLearn.accept(jlearnMs);
 					queriesJLearn.accept(jlearnCounterOracle.getCount());
-					
+
 					jlearnLearner = null;
 					jlearnCacheOracle = null;
 					jlearnCounterOracle = null;
 				}
-				
+
 				System.gc();
 			}
-			
-			out.printf("%s %d %f %f %f %f\n", learnerName, learnerId,
-					timeLearnlib.getAverage(), queriesLearnlib.getAverage(),
-					timeJLearn.getAverage(), queriesJLearn.getAverage());
-			
+
+			out.println(String.format(Locale.ENGLISH, "%s %d %f %f %f %f",
+					learnerName, learnerId, timeLearnlib.getAverage(),
+					queriesLearnlib.getAverage(), timeJLearn.getAverage(),
+					queriesJLearn.getAverage()));
+
 			out.flush();
 			learnerId++;
 		}

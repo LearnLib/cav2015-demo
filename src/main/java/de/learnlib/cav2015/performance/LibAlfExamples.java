@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
 
@@ -70,67 +71,72 @@ public class LibAlfExamples implements CLITool {
 		
 		MembershipOracle.DFAMembershipOracle<I> directOracle
 			= new SimulatorOracle.DFASimulatorOracle<>(target);
-		
+
 		for (LibAlf.Learner learnerPair : learners) {
 			String learnerName = learnerPair.getName();
 			int learnerId = learnerPair.getId();
-			
+
 			LongSummaryStatistics timeLearnlib = new LongSummaryStatistics();
 			LongSummaryStatistics timeLibalf = new LongSummaryStatistics();
 			LongSummaryStatistics queriesLearnlib = new LongSummaryStatistics();
 			LongSummaryStatistics queriesLibalf = new LongSummaryStatistics();
-			
-			for (int i = 0; i < repeatCount; i++) {			
+
+			for (int i = 0; i < repeatCount; i++) {
 				System.out.print(learnerName + " #" + i + " ... ");
 				System.out.flush();
 				System.gc();
-				
+
 				// LearnLib
 				{
-					DFACounterOracle<I> directCounterOracle = new DFACounterOracle<I>(directOracle, "MQs");
-					
-					MembershipOracle.DFAMembershipOracle<I> cacheOracle
-						= DFACaches.createTreeCache(alphabet, directCounterOracle);
-	
-					
-					DFALearner<I> learnlibLearner = learnerPair.createLearnLibLearner(alphabet, cacheOracle);
+					DFACounterOracle<I> directCounterOracle = new DFACounterOracle<I>(
+							directOracle, "MQs");
+
+					MembershipOracle.DFAMembershipOracle<I> cacheOracle = DFACaches
+							.createTreeCache(alphabet, directCounterOracle);
+
+					DFALearner<I> learnlibLearner = learnerPair
+							.createLearnLibLearner(alphabet, cacheOracle);
 					long learnLibMs = Util.runLearner(example, learnlibLearner);
-					System.out.print(learnLibMs + "ms (" + directCounterOracle.getCount() + "MQs)");
+					System.out.print(learnLibMs + "ms ("
+							+ directCounterOracle.getCount() + "MQs)");
 					System.out.flush();
-					
+
 					timeLearnlib.accept(learnLibMs);
 					queriesLearnlib.accept(directCounterOracle.getCount());
-					
+
 					directCounterOracle = null;
 					cacheOracle = null;
 					learnlibLearner = null;
 				}
 				System.gc();
-				
+
 				// LibAlf
 				{
-					DFACounterOracle<I> libalfCounterOracle = new DFACounterOracle<I>(directOracle, "MQs");
-					
-					LibalfActiveDFALearner<I> libalfLearner = learnerPair.createLibalfLearner(alphabet, libalfCounterOracle);
+					DFACounterOracle<I> libalfCounterOracle = new DFACounterOracle<I>(
+							directOracle, "MQs");
+
+					LibalfActiveDFALearner<I> libalfLearner = learnerPair
+							.createLibalfLearner(alphabet, libalfCounterOracle);
 					long libalfMs = Util.runLearner(example, libalfLearner);
-					System.out.println(" / " + libalfMs + "ms (" + libalfCounterOracle.getCount() + " MQs)");
+					System.out.println(" / " + libalfMs + "ms ("
+							+ libalfCounterOracle.getCount() + " MQs)");
 					timeLibalf.accept(libalfMs);
 					queriesLibalf.accept(libalfCounterOracle.getCount());
-					
+
 					libalfCounterOracle = null;
 					libalfLearner.dispose();
 					libalfLearner = null;
 				}
 				System.gc();
 			}
-			
-			out.printf("%s %d %f %f %f %f\n", learnerName, learnerId,
-					timeLearnlib.getAverage(), queriesLearnlib.getAverage(),
-					timeLibalf.getAverage(), queriesLibalf.getAverage());
+
+			out.println(String.format(Locale.ENGLISH, "%s %d %f %f %f %f",
+					learnerName, learnerId, timeLearnlib.getAverage(),
+					queriesLearnlib.getAverage(), timeLibalf.getAverage(),
+					queriesLibalf.getAverage()));
 			out.flush();
 		}
-		
-		
+
 	}
 	
 	private String outputDirName = null;
