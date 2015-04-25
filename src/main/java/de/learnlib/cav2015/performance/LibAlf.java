@@ -14,6 +14,7 @@ import de.learnlib.algorithms.lstargeneric.closing.ClosingStrategies;
 import de.learnlib.algorithms.lstargeneric.dfa.ExtensibleLStarDFA;
 import de.learnlib.api.LearningAlgorithm.DFALearner;
 import de.learnlib.api.MembershipOracle;
+import de.learnlib.libalf.LibalfActiveDFALearner;
 import de.learnlib.libalf.LibalfAngluinColDFA;
 import de.learnlib.libalf.LibalfAngluinSimpleDFA;
 import de.learnlib.libalf.LibalfKVDFA;
@@ -21,7 +22,7 @@ import de.learnlib.libalf.LibalfRSDFA;
 
 public class LibAlf {
 	
-	public static abstract class Learner {
+	public static abstract class Learner implements Comparable<Learner> {
 		private final String name;
 		private final int id;
 		
@@ -38,8 +39,13 @@ public class LibAlf {
 			return id;
 		}
 		
+		@Override
+		public int compareTo(Learner other) {
+			return id - other.id;
+		}
+		
 		public abstract <I> DFALearner<I> createLearnLibLearner(Alphabet<I> alphabet, MembershipOracle<I, Boolean> oracle);
-		public abstract <I> DFALearner<I> createLibalfLearner(Alphabet<I> alphabet, MembershipOracle<I, Boolean> oracle);
+		public abstract <I> LibalfActiveDFALearner<I> createLibalfLearner(Alphabet<I> alphabet, MembershipOracle<I, Boolean> oracle);
 	}
 	
 	private static final Map<String,Learner> learners = new HashMap<>();
@@ -48,11 +54,11 @@ public class LibAlf {
 		learners.put(learner.getName(), learner);
 	}
 	
-	public Collection<Learner> getLearners() {
+	public static Collection<Learner> getLearners() {
 		return Collections.unmodifiableCollection(learners.values());
 	}
 	
-	public Collection<Learner> getLearners(Collection<? extends String> names) {
+	public static Collection<Learner> getLearners(Collection<? extends String> names) {
 		if (names == null) {
 			return getLearners();
 		}
@@ -74,7 +80,7 @@ public class LibAlf {
 			}
 
 			@Override
-			public <I> DFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
+			public <I> LibalfActiveDFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
 					MembershipOracle<I, Boolean> oracle) {
 				return new LibalfAngluinSimpleDFA<>(alphabet, oracle);
 			}
@@ -89,7 +95,7 @@ public class LibAlf {
 			}
 
 			@Override
-			public <I> DFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
+			public <I> LibalfActiveDFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
 					MembershipOracle<I, Boolean> oracle) {
 				return new LibalfAngluinColDFA<>(alphabet, oracle);
 			}
@@ -104,7 +110,7 @@ public class LibAlf {
 			}
 
 			@Override
-			public <I> DFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
+			public <I> LibalfActiveDFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
 					MembershipOracle<I, Boolean> oracle) {
 				return new LibalfRSDFA<>(alphabet, oracle);
 			}
@@ -117,7 +123,7 @@ public class LibAlf {
 			}
 
 			@Override
-			public <I> DFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
+			public <I> LibalfActiveDFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
 					MembershipOracle<I, Boolean> oracle) {
 				return new LibalfKVDFA<>(alphabet, oracle, false);
 			}
@@ -130,7 +136,7 @@ public class LibAlf {
 			}
 
 			@Override
-			public <I> DFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
+			public <I> LibalfActiveDFALearner<I> createLibalfLearner(Alphabet<I> alphabet,
 					MembershipOracle<I, Boolean> oracle) {
 				return new LibalfKVDFA<>(alphabet, oracle, true);
 			}

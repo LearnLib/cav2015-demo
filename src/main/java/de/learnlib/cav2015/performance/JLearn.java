@@ -28,7 +28,7 @@ import de.learnlib.jlearn.JLearnSplitterCreator;
 import de.learnlib.mealy.MealyUtil;
 
 public class JLearn {
-	public static abstract class Learner {
+	public static abstract class Learner implements Comparable<Learner> {
 		private final String name;
 		private final int id;
 		
@@ -43,6 +43,11 @@ public class JLearn {
 		
 		public int getId() {
 			return id;
+		}
+		
+		@Override
+		public int compareTo(Learner other) {
+			return id - other.id;
 		}
 		
 		public abstract <I,O> MealyLearner<I,O> createLearnLibLearner(Alphabet<I> alphabet, MembershipOracle<I, Word<O>> oracle);

@@ -1,3 +1,7 @@
 de.learnlib.cav2015.taf2dot.TAF2DOT
 de.learnlib.cav2015.tafview.TAFView
 de.learnlib.cav2015.learnviz.LearnViz
+de.learnlib.cav2015.performance.LibAlfRandSeries
+de.learnlib.cav2015.performance.LibAlfExamples
+de.learnlib.cav2015.performance.JLearnRandSeries
+de.learnlib.cav2015.performance.JLearnExamples
