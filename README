@@ -1,0 +1,112 @@
+****************************************************************************
+*                                                                          *
+*  The Open-Source LearnLib: A Framework for Active Automata Learning      *
+*                                                                          *
+****************************************************************************
+
+Contents
+============================================================================
+1. Overview
+2. Installation
+3. Visual Demo 
+4. Performance Evaluation
+5. Source Demos
+6. Pointers to more Documentation 
+
+Overview
+============================================================================
+
+LearnLib is a library for active automata learning algorithms. The current
+version is written in Java and available as open source software under the 
+LGPLv3 license. The CAV tool paper gives a short overview of more the more
+recent work we have done on LearnLib for the open source release, and names
+a number of recent works that use LearnLib. The paper also contains a 
+proposal for a live demo as an appendix.
+
+The reviewers requested data to back up claims we made about the performance
+of LearnLib. So for the rebuttal we made this data available online and promised
+to make it part of the paper for the final version. There is no final version
+yet - we have included some performance results as a second appendix to the 
+paper for this artifact evaluation. The artifact we submit contains three 
+things:
+
+1. The tool that is presented in the proposal for a live demo. This tool lets
+   a user interact with a learning algorithm and shows the the internal data 
+   structures as well as the produced models. We found that this kind of tool
+   is very helpful when teaching automata learning to students. The demo 
+   is described in Section 3. 
+
+2. Scripts and programs that were used to produce the performance data. 
+   In the paper we make claims about the performance of the new version of 
+   LearnLib and compare it to other implementations of active automata learning
+   (namely libalf and the old (closed-source) version of LearnLib). We performed
+   experiments that are the basis for these claims. In Section 4 we describe 
+   how the performance evaluation was set up can can be run.
+
+3. A demo project that shows how to use LearnLib in your own project. LearnLib
+   is a library and we are interested in growing an active user base. We aim 
+   at making it easy to use the different algorithms and optimizations provided
+   by LearnLib. We briefly describe the demo project in Section 5.
+
+ Finally, Section 6 contains pointers to more documentation.
+
+
+Installation
+============================================================================
+
+What you will find in this folder:
+
+[TODO] describe contents of folder!!!
+
+Remark: LearnLib uses maven (https://maven.apache.org/) as build environment.
+(It is, however, not necessary to be familiar with maven for the evaluation of 
+this artifact).
+
+Performance Evaluation
+============================================================================
+
+[TODO] describe how to run things and what they do
+
+[TODO] describe expected run times and how to shorten runtime
+
+[TODO] describe outputs and how to read them 
+
+[TODO] describe how plots can be created 
+
+
+Source Demos
+============================================================================
+
+[TODO] describe where to find the source demo and what its scope is 
+
+
+Pointers to more Documentation
+============================================================================
+
+* LearnLib homepage
+  http://www.learnlib.de
+
+* LearnLib sources
+  https://github.com/LearnLib
+
+* Performance data produced by the included scripts
+  http://learnlib.de/features/performance/
+
+* API Docs
+  http://learnlib.github.io/learnlib/maven-site/latest-release/apidocs/
+
+* LearnLib wiki (has a small example showing a basic setup, as well as 
+  pointer to documentation on maven)
+  https://github.com/LearnLib/learnlib/wiki
+
+* An introduction to active automata learning 
+  http://learnlib.de/wp-content/uploads/2013/05/introduction-to-automata-learning-sfm2011.pdf 
+ 
+
+
+
+
+
+
+
+
