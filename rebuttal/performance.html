@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<title>Performance | LearnLib</title>
+</head>
+
+<body class="page page-id-250 page-parent page-child parent-pageid-197 page-template-default custom-background custom-font-enabled single-author">
+
+<article>
+
+		<header class="entry-header">
+												<h1 class="entry-title">Performance</h1>
+		</header>
+
+		<div class="entry-content">
+			<p>The open-source LearnLib has been designed with a particular emphasis on scalability and high performance. When using comparable algorithms, it outperforms both the previous, closed-source LearnLib (a.k.a. <em>JLearn</em>) as well as LibAlf, an automata learning library written in C++. The concrete speed-up depends on the algorithm, the alphabet size, and the model size. Furthermore, it is highly non-linear (see below). As a result, on &#8220;big&#8221; models the new LearnLib can be <strong>several orders of magnitude</strong> faster than the aforementioned other libraries.</p>
+<p>Apart from these performance gains attained by clever engineering, the open-source LearnLib features novel algorithms (such as the TTT algorithm), which may significantly reduce the number of membership queries during learning.</p>
+<p>Let us now take a brief look at how LearnLib&#8217;s algorithms perform against their counterparts from LibAlf and JLearn. Note that, since LibAlf only supports DFA learning and JLearn only supports Mealy machine learning, a direct three-way comparison cannot be conducted fairly, which is why we consider each of these libraries separately. Also, due to other specifics of the libraries, different experimental setups appear fair. More information on this can be found <a href="libalf.html">here (LibAlf)</a> and <a href="jlearn.html" title="JLearn Performance Comparison">here (JLearn)</a>.</p>
+<h2>LibAlf</h2>
+<p>When looking at the classic L* algorithm for learning DFAs, the version provided with LearnLib has a non-constant speedup over LibAlf&#8217;s version (left). The same applies to the Kearns/Vazirani algorithm with binary search, which in general appears to be the fastest algorithm shipped with LibAlf (middle). For moderately sized systems (500 states, 10 input symbols), every algorithm in LearnLib is several orders of magnitude faster than the equivalent LibAlf version (right).</p>
+<table>
+<tr>
+<td>
+<a href="svgs/series-10-lstar.svg"><img class="alignnone size-medium wp-image-252" src="svgs/series-10-lstar.svg" alt="series-10-lstar" width="212" height="132" /></a><br/>
+</td>
+<td>
+<a href="svgs/svgs/series-10-kvb.svg"><img class="alignnone size-medium wp-image-252" src="svgs/series-10-kvb.svg" alt="series-10-kvb" width="212" height="132" /></a><br/>
+</td>
+<td>
+<a href="svgs/random-10-500-time.svg"><img class="alignnone size-medium" src="svgs/random-10-500-time.svg" width="212" height="132" /></a>
+</td>
+</tr>
+<tr>
+<td colspan="3"><small>Performance comparison between LearnLib (blue) and LibAlf (red). <b>Left:</b> performance characteristics of L* versions (alphabet size = 10). <b>Middle:</b> performance characteristics of Kearns/Vazirani with binary search versions (alphabet size = 10). <b>Right:</b> performance of comparable learning algorithms (automaton size = 500, alphabet size = 10). Click on an image to enlarge.</small></td>
+</tr>
+</table>
+<p>A more detailed comparison between the open-source LearnLib and LibAlf can be found <a href="libalf.html" title="LibAlf Performance Comparison">here</a>.</p>
+<h2>JLearn (Closed-Source LearnLib)</h2>
+<p>Even though the closed-source LearnLib (a.k.a JLearn) already offered good performance, the open-source version constitutes a substantial improvement in this regard. Although smaller than in the LibAlf case, the speedups gained by the open-source LearnLib are still very impressive. Again, there is a non-constant speedup when, e.g., looking at the L* algorithm (left). Of all considered algorithms, the Discrimination Tree/Observation Pack algorithm (middle) is the fastest algorithm in both versions of LearnLib, and the spread is visibly smaller. Nevertheless, for moderately-sized systems, JLearn provides a speedup of at least 8-10x when using the same algorithm (right).</p>
+<table>
+<tr>
+<td>
+<a href="svgs/jlearn-series-10-lstar.svg"><img class="alignnone size-medium wp-image-252" src="svgs/jlearn-series-10-lstar.svg" alt="jlearn-series-10-lstar" width="212" height="132"/></a><br/>
+</td>
+<td>
+<a href="svgs/jlearn-series-10-dt.svg"><img class="alignnone size-medium wp-image-252" src="svgs/jlearn-series-10-dt.svg" alt="jlearn-series-10-dt" width="212" height="132" /></a><br/>
+</td>
+<td>
+<a href="svgs/random-10-500-time.svg"><img class="alignnone size-medium" src="svgs/random-10-500-time.svg" alt="jlearn-random-10-500" width="212" height="132"/></a>
+</td>
+</tr>
+<tr>
+<td colspan="3"><small>Performance comparison between LearnLib (blue) and JLearn (red). <b>Left:</b> performance characteristics of L* versions (alphabet size = 10). <b>Middle:</b> performance characteristics of Discrimination Tree (Observation Pack) versions (alphabet size = 10). <b>Right:</b> performance of comparable learning algorithms (automaton size = 500, alphabet size = 10). Click on an image to enlarge.</small></td>
+</tr>
+</table>
+<p>A more detailed comparison between the open-source LearnLib and JLearn can be found <a href="jlearn.html">here</a>.</p>
+					</div><!-- .entry-content -->
+		<footer class="entry-meta">
+					</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+				
+</body>
+</html>
