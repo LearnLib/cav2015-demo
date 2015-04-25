@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import net.automatalib.automata.FiniteAlphabetAutomaton;
@@ -72,11 +73,13 @@ import de.learnlib.oracles.SimulatorOracle;
 
 public class LearnViz implements CLITool {
 	
+	private final JFrame topFrame;
+	
 	private abstract class Algo {
 		@SuppressWarnings("unchecked")
 		public <I> void learn(FiniteAlphabetAutomaton<?, I, ?> target) {
 			show(new GraphShowable<>("Target system", target.graphView()));
-			JOptionPane.showMessageDialog(null, "Updates will be displayed in your browser. Press OK to start the learning process");
+			JOptionPane.showMessageDialog(topFrame, "Updates will be displayed in your browser. Press OK to start the learning process");
 			if (target instanceof MealyMachine) {
 				learnMealy((MealyMachine<?,I,?,?>) target, target.getInputAlphabet());
 			}
@@ -118,7 +121,7 @@ public class LearnViz implements CLITool {
 			for (String sym : symbols) {
 				Optional<I> s = alphabet.stream().filter(i -> sym.equals(i.toString())).findFirst();
 				if (!s.isPresent()) {
-					JOptionPane.showMessageDialog(null, "Invalid symbol '" + sym + "'!");
+					JOptionPane.showMessageDialog(topFrame, "Invalid symbol '" + sym + "'!");
 					return null;
 				}
 				wb.add(s.get());
@@ -140,9 +143,9 @@ public class LearnViz implements CLITool {
 				Word<I> ceWord = null;
 				String ceString = null;
 				do {
-					ceString = JOptionPane.showInputDialog("Enter counterexample (symbols separated by spaces)", (ceString == null) ? "" : ceString);
+					ceString = JOptionPane.showInputDialog(topFrame, "Enter counterexample (symbols separated by spaces)", (ceString == null) ? "" : ceString);
 					if (ceString == null) {
-						int ret = JOptionPane.showConfirmDialog(null, "The hypothesis is not yet equivalent to the target system. A sample counterexample is " + sepWord + ". Terminate anyway?",
+						int ret = JOptionPane.showConfirmDialog(topFrame, "The hypothesis is not yet equivalent to the target system. A sample counterexample is " + sepWord + ". Terminate anyway?",
 								"Terminate learning?",
 								JOptionPane.YES_NO_OPTION);
 						if (ret == JOptionPane.YES_OPTION) {
@@ -155,7 +158,7 @@ public class LearnViz implements CLITool {
 						continue;
 					}
 					if (Objects.equal(hypothesis.computeOutput(ceWord), target.computeOutput(ceWord))) {
-						JOptionPane.showMessageDialog(null, "Word '" + ceWord + "' is not a counterexample!");
+						JOptionPane.showMessageDialog(topFrame, "Word '" + ceWord + "' is not a counterexample!");
 						ceWord = null;
 						continue;
 					}
@@ -187,7 +190,7 @@ public class LearnViz implements CLITool {
 				}
 				
 				if (!interactive) {
-					JOptionPane.showMessageDialog(null, "Finished round " + round + ", counterexample: " + ceWord);
+					JOptionPane.showMessageDialog(topFrame, "Finished round " + round + ", counterexample: " + ceWord);
 				}
 				
 				DefaultQuery<I, Word<O>> ce = new DefaultQuery<I, Word<O>>(ceWord, target.computeOutput(ceWord));
@@ -221,7 +224,7 @@ public class LearnViz implements CLITool {
 				}
 				
 				if (!interactive) {
-					JOptionPane.showMessageDialog(null, "Finished round " + round + ", counterexample: " + ceWord);
+					JOptionPane.showMessageDialog(topFrame, "Finished round " + round + ", counterexample: " + ceWord);
 				}
 				
 				DefaultQuery<I, Boolean> ce = new DefaultQuery<>(ceWord, target.computeOutput(ceWord));
@@ -409,6 +412,12 @@ public class LearnViz implements CLITool {
 		algorithms.put("rs", new AlgoRS());
 		algorithms.put("dt", new AlgoDT());
 		algorithms.put("ttt", new AlgoTTT());
+		
+
+		topFrame = new JFrame();
+		topFrame.setLocationRelativeTo(null);
+		topFrame.setVisible(true);
+		topFrame.setAlwaysOnTop(true);
 	}
 	
 	@Override
@@ -490,7 +499,7 @@ public class LearnViz implements CLITool {
 	}
 	
 	
-	public static class EventListener<I,D> implements TTTEventListener<I, D> {
+	public class EventListener<I,D> implements TTTEventListener<I, D> {
 		
 		private final Alphabet<I> alphabet;
 		private final BaseTTTLearner<?,I,D> learner;
@@ -552,14 +561,14 @@ public class LearnViz implements CLITool {
 						}
 			}));
 			if (splitter.succSeparator != null) {
-				JOptionPane.showMessageDialog(null, String.format("'%s'-successor of states %s and %s is "
+				JOptionPane.showMessageDialog(topFrame, String.format("'%s'-successor of states %s and %s is "
 						+ "separated by final discriminator %s.\nUsing %s %s to replace temporary discriminator %s",
 						symbol, splitter.state1, splitter.state2, splitter.succSeparator.getDiscriminator(),
 						symbol, splitter.discriminator,
 						blockRoot.getDiscriminator()));
 			}
 			else {
-				JOptionPane.showMessageDialog(null, String.format("States %s and %s produce differing outputs "
+				JOptionPane.showMessageDialog(topFrame, String.format("States %s and %s produce differing outputs "
 							+ "on %s.\nUsing %s to replace temporary discriminator %s.",
 							splitter.state1, splitter.state2, symbol, symbol, blockRoot.getDiscriminator()));
 			}
@@ -615,7 +624,7 @@ public class LearnViz implements CLITool {
 						}
 						
 			}));
-			JOptionPane.showMessageDialog(null, String.format("Instable hypothesis:\nState %s (access sequence %s) predicts wrong "
+			JOptionPane.showMessageDialog(topFrame, String.format("Instable hypothesis:\nState %s (access sequence %s) predicts wrong "
 					+ "output for suffix %s\nReal output: %s (according to discrimination tree).\nUsing "
 					+ "%s%s as counterexample.",
 					state, state.getAccessSequence(), dtNode.getDiscriminator(), realOutcome, state.getAccessSequence(), dtNode.getDiscriminator()));
@@ -662,7 +671,7 @@ public class LearnViz implements CLITool {
 						}
 						
 			}));
-			JOptionPane.showMessageDialog(null, String.format("MQ([%s] %s) != MQ([%s] %s %s).\nSplitting state "
+			JOptionPane.showMessageDialog(topFrame, String.format("MQ([%s] %s) != MQ([%s] %s %s).\nSplitting state "
 					+ "%s, new state with access sequence %s,\nand using %s as temporary discriminator",
 					transition.getAccessSequence(), tempDiscriminator, transition.getSource().getAccessSequence(),
 					transition.getInput(), tempDiscriminator, transition.getTarget(),
