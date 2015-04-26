@@ -1,3 +1,0 @@
-[submodule "src/non-packaged-resources/example-project"]
-	path = src/non-packaged-resources/example-project
-	url = https://github.com:LearnLib/cav2015-example.git
