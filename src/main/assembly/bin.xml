@@ -9,7 +9,7 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>/lib</outputDirectory>
+            <outputDirectory>lib</outputDirectory>
             <unpack>false</unpack>
             <scope>runtime</scope>
             <excludes>
@@ -20,7 +20,7 @@
     <fileSets>
         <fileSet>
             <directory>src/non-packaged-resources</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>.</outputDirectory>
             <excludes>
                 <exclude>bin/*</exclude>
             </excludes>
@@ -28,7 +28,7 @@
         </fileSet>
         <fileSet>
             <directory>src/non-packaged-resources/bin</directory>
-            <outputDirectory>/bin</outputDirectory>
+            <outputDirectory>bin</outputDirectory>
             <filtered>false</filtered>
             <fileMode>0755</fileMode>
         </fileSet>
@@ -36,7 +36,7 @@
     <files>
         <file>
             <source>${project.build.directory}/${project.build.finalName}.jar</source>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>.</outputDirectory>
             <destName>${project.name}.jar</destName>
         </file>
     </files>

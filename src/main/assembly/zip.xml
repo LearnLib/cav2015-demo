@@ -10,7 +10,7 @@
     <fileSets>
         <fileSet>
             <directory>${project.build.directory}/${project.name}</directory>
-            <outputDirectory>/${project.name}</outputDirectory>
+            <outputDirectory>${project.name}</outputDirectory>
             <filtered>false</filtered>
         </fileSet>
     </fileSets>

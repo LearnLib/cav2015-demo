@@ -22,6 +22,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import net.automatalib.words.Alphabet;
@@ -42,6 +44,8 @@ import de.learnlib.jlearn.JLearnDHCMealy;
 import de.learnlib.jlearn.JLearnObservationPackMealy;
 import de.learnlib.jlearn.JLearnSplitterCreator;
 import de.learnlib.mealy.MealyUtil;
+import de.ls5.jlearn.algorithms.dhc.DHC;
+import de.ls5.jlearn.logging.LearnLog;
 
 public class JLearn {
 	public static abstract class Learner implements Comparable<Learner> {
@@ -101,7 +105,14 @@ public class JLearn {
 	}
 	
 	
+	// note: this needs to be a class-level variable, or else it will be
+	// garbage collected and the settings will be reverted
+	private static final Logger dhcLogger;
+	
 	static {
+		dhcLogger = Logger.getLogger(DHC.class.getName());
+		dhcLogger.setLevel(Level.OFF);
+		
 		addLearner(new Learner("angluin-classic", 0) {
 			@Override
 			public <I, O> MealyLearner<I, O> createLearnLibLearner(

@@ -17,10 +17,8 @@
 		<install.dir>${project.build.directory}/install/${project.name}</install.dir>
 
 
-		<dependency-plugin.version>2.10</dependency-plugin.version>
-		<copy-rename-plugin.version>1.0</copy-rename-plugin.version>
 		<jar-plugin.version>2.6</jar-plugin.version>
-		<resources-plugin.version>2.7</resources-plugin.version>
+		<assembly-plugin.version>2.5.3</assembly-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -139,78 +137,27 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${dependency-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<useBaseVersion>false</useBaseVersion>
-							<outputDirectory>${install.dir}/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.coderplus.maven.plugins</groupId>
-				<artifactId>copy-rename-maven-plugin</artifactId>
-				<version>${copy-rename-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>rename-jar</id>
-						<phase>package</phase>
-						<goals>
-							<goal>rename</goal>
-						</goals>
-						<configuration>
-							<sourceFile>${project.build.directory}/${project.build.finalName}.jar</sourceFile>
-							<destinationFile>${install.dir}/${project.name}.jar</destinationFile>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${resources-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>install-resources</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${install.dir}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/non-packaged-resources</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<appendAssemblyId>false</appendAssemblyId>
-					<descriptors>
-						<descriptor>src/main/assembly/bin.xml</descriptor>
-						<descriptor>src/main/assembly/zip.xml</descriptor>
-					</descriptors>
-					<finalName>${project.name}</finalName>
-				</configuration>
+				<version>${assembly-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>dist</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>src/main/assembly/bin.xml</descriptor>
+								<descriptor>src/main/assembly/zip.xml</descriptor>
+							</descriptors>
+							<finalName>${project.name}</finalName>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -13,12 +13,12 @@ Contents
 5. Source Demos
 6. Pointers to more Documentation 
 
-Overview
+1. Overview
 ============================================================================
 
 LearnLib is a library for active automata learning algorithms. The current
 version is written in Java and available as open source software under the 
-LGPLv3 license. The CAV tool paper gives a short overview of more the more
+LGPLv3 license. The CAV tool paper gives a short overview of some of the more
 recent work we have done on LearnLib for the open source release, and names
 a number of recent works that use LearnLib. The paper also contains a 
 proposal for a live demo as an appendix.
@@ -41,7 +41,7 @@ things:
    LearnLib and compare it to other implementations of active automata learning
    (namely libalf and the old (closed-source) version of LearnLib). We performed
    experiments that are the basis for these claims. In Section 4 we describe 
-   how the performance evaluation was set up can can be run.
+   how the performance evaluation was set up and can be run.
 
 3. A demo project that shows how to use LearnLib in your own project. LearnLib
    is a library and we are interested in growing an active user base. We aim 
@@ -51,36 +51,221 @@ things:
  Finally, Section 6 contains pointers to more documentation.
 
 
-Installation
+2. Installation
 ============================================================================
 
-What you will find in this folder:
+2.1 Prerequisites
+---------------------
+You can skip this section if you are using the VM image.
 
-[TODO] describe contents of folder!!!
+- Java 8:
+    LearnLib is a library written in Java. The demo requires a Java 8 Runtime
+    Environment (JRE) to run, e.g., Oracle's (http://java.oracle.com/) or
+    OpenJDK (http://openjdk.java.net/).
+- GraphVIZ:
+    LearnLib relies on the AT&T GraphVIZ tool (http://www.graphviz.org/) for
+    rendering graphs and automata. Also, the 'dot' binary should be in a
+    directory contained in the PATH environment variable (if for whatever
+    reasons this can't be done, the 'learnlib.properties' file contains
+    instructions on how to set an alternative path for the 'dot' program).
+- Gnuplot:
+    We use Gnuplot (http://www.gnuplot.info/) for plotting data for performance
+    evaluation. More precisely, our tool will only generate raw data files,
+    which can be transformed into SVG plots using Gnuplot.
+- Apache Maven (source demo only):
+    LearnLib uses Apache Maven (http://maven.apache.org/) for its build
+    management, and we believe that using Maven is the most convenient way of
+    writing applications that use LearnLib. Maven will need to be installed
+    to trigger builds from the command line, however, many Java IDEs such as
+    Eclipse (http://www.eclipse.org/) come equipped with a standalone version
+    of Maven. 
 
-Remark: LearnLib uses maven (https://maven.apache.org/) as build environment.
-(It is, however, not necessary to be familiar with maven for the evaluation of 
-this artifact).
+2.2 Contents Overview
+---------------------
+This distribution contains the following files and directories:
+- automata/
+    This folder contains automata (TAF files) that can be used for the visual
+    demo (cf. next section). They are represented in a very easily
+    comprehensible textual format. The file 'coffee-machine.taf' contains a
+    detailed documentation of all the possible elements, so you can create
+    and learn your own automata.
+- bin/
+    This folder contains various tools and scripts to work with LearnLib. The
+    script `taf2dot` allows converting a TAF file into a GraphVIZ DOT file.
+    The script `tafview` renders and displays an automaton stored as a TAF
+    file (GraphVIZ required). All other scripts are explained in the subsequent
+    sections.
+- gnuplot-scripts/
+    This folder contains scripts for Gnuplot to create the performance plots
+    (cf. Section 4).
+- lib/
+    This folder contains the libraries used by the demonstration tool.
+- CAV_2015_submission_212.pdf
+    The LearnLib paper, as submitted to CAV.
+- learnlib-cav2015.jar
+    The main JAR file containing the tool logic. Do not execute this JAR file
+    directly, always use the scripts in the bin/ directory.
+- README
+    This file.
 
-Performance Evaluation
+2.3 Compiling from Source
+-------------------------
+This section is for interested readers only. It assumes that you have Maven
+and git (http://git-scm.com/) installed, and are using a Unix-like operating
+system.
+
+The LearnLib Demo can also be compiled from its source. For this, execute the
+following steps in the command line:
+
+   git clone https://github.com/LearnLib/cav2015-demo.git
+   cd cav2015-demo
+   mvn package
+
+The directory `target/learnlib-cav2015` should then contain all of the files and
+directories contained in the above subsection.
+
+
+3. Visual Demo
 ============================================================================
 
-[TODO] describe how to run things and what they do
+The LearnViz tool contained in the bin folder (`./bin/learnviz`) allows
+visualizing the process of learning an automaton. It relies on the GraphVIZ
+DOT tool for visualizing automata, and displays them in a web browser.
+Screenshots from using LearnViz are shown in the Appendix of our conference
+submission. LearnViz has been used successfully at a LearnLib tutorial at
+ISoLA 2014.
 
-[TODO] describe expected run times and how to shorten runtime
+The visual demo can be run as follows:
+   ./bin/learnviz [<options ...>] <taf-file>
 
-[TODO] describe outputs and how to read them 
+<taf-file> is the target automaton to be learned. You can use one of the
+supplied files contained in the `automata/` folder, or define your own 
+automaton (see `coffee-machine.taf` for a reference).
 
-[TODO] describe how plots can be created 
+<options> can be any of:
+
+-a <algo>, -algo <algo>
+  Specifies the learning algorithm to be used. Possible values are `lstar`
+  (default), `rs` (Rivest&Schapire's algorithm), `dt` (Discrimination Tree
+  algorithm), `ttt` (TTT Algorithm).
+
+-i, -interactive
+  Enables interactive mode. In interactive mode, the user is requested to
+  enter counterexamples manually. If interactive mode is turned off (default),
+  counterexamples are automatically generated (and displayed).
+
+After starting, a message will pop up and inform the user that progress updates
+will be displayed in the browser. After clicking 'OK', the learning process
+starts, keeping the user informed about the current progress and, if the
+interactive mode was enabled, requesting them to enter counterexamples.
 
 
-Source Demos
+4. Performance Evaluation
+============================================================================
+
+For evaluating the performance in comparison with other active automata
+learning libraries (we chose the old version of LearnLib, here called JLearn,
+and the LibAlf framework), we have written small programs that run the
+frameworks on some examples, and gather runtime data to be plotted with
+Gnuplot (using scripts we also provide).
+
+For the first experiments, we randomly generated automata of growing size over
+certain alphabet sizes. This allows us to plot the running time as a function
+of the target size. How to run these experiments is described in the next
+subsection.
+
+For the second experiments, we ran comparable algorithms from both frameworks
+on selected example automata. This allows us to directly compare all algorithms
+in a bar chart. How to run these experiments is described in Section 4.2.
+
+
+4.1 Series of Randomly Generated Automata of Growing Size
+---------------------------------------------------------
+
+The performance evaluation tools for a series of randomly generated automata
+can be run as follows:
+
+   ./bin/jlearn-randseries [<options ...>] <output-dir>
+   ./bin/libalf-randseries [<options ...>] <output-dir>
+
+<output-dir> is the directory in which the result data (.dat files) will be
+stored.
+
+<options> can be any of:
+
+-l <num>, -lower <num>
+  Specifies the lower bound (inclusive) on the number of states in the
+  series of generated automata. The default is 10.
+-u <num>, -upper <num>
+  Specifies the upper bound (exclusive) on the number of states in the
+  series. The default is 1000.
+-s <num>, -step <num>
+  Specifies the state count stepping in the series. The default is 10.
+-k <sizes>, -alphabet-sizes <sizes>
+  Specifies the alphabet sizes for which to run the experiment series
+  independently, as a comma-separated list. The default is '2,10,100'.
+
+Running `...-randseries` scripts can take time, up to an hour or even more
+in some cases. For quicker results, decrease the upper bound and use less
+different alphabet sizes (and smaller alphabets). The commands
+   ./bin/jlearn-randseries -u 500 -k 2 <output-dir>
+   ./bin/libalf-randseries -u 500 -k 2 <output-dir>
+should usually finish within a couple of minutes each.
+
+After running, data files will have been stored in the specified output
+directory. They can be converted into plots in the following way (assuming
+that the output directory was called `results-jlearn-randseries`, and that
+the script was invoked from the root of the distribution):
+
+   cd results-jlearn-randseries/
+   gnuplot ../gnuplot-scripts/plot-jlearn-randseries.gpl
+
+For plotting the results from the `libalf-randseries` script, the Gnuplot script
+`plot-libalf-randseries.gpl` can be used.
+
+
+4.2 Direct Comparison on Selected Examples
+---------------------------------------------------------
+
+The performance evaluation tools for selected examples can be run as follows:
+
+   ./bin/jlearn-examples [<options ...>] <output-dir>
+   ./bin/libalf-examples [<options ...>] <output-dir>
+
+<output-dir> is the directory in which the result data (.dat files) will be
+stored.
+
+<options> can be any of:
+
+-n <num>, -repeat <num>
+  Specifies how often a single example is repeatedly learned, to lessen
+  the impact of outlier runs.
+
+The `...-examples` scripts should usually finish with 20-40 minutes each.
+For quicker results, reduce the repeat count. The commands
+   ./bin/jlearn-examples -n 1 <output-dir>
+   ./bin/libalf-examples -n 1 <output-dir>
+should usually finish within a handful of minutes each.
+
+After running, data files will have been stored in the specified output
+directory. They can be converted into plots in the following way (assuming
+that the output directory was called `results-jlearn-examples`, and that
+the script was invoked from the root of the distribution):
+
+   cd results-jlearn-examples/
+   gnuplot ../gnuplot-scripts/plot-jlearn-examples.gpl
+
+For plotting the results from the `libalf-examples` script, the Gnuplot script
+`plot-libalf-examples.gpl` can be used.
+
+
+5. Source Demos
 ============================================================================
 
 [TODO] describe where to find the source demo and what its scope is 
 
 
-Pointers to more Documentation
+6. Pointers to more Documentation
 ============================================================================
 
 * LearnLib homepage
@@ -96,7 +281,7 @@ Pointers to more Documentation
   http://learnlib.github.io/learnlib/maven-site/latest-release/apidocs/
 
 * LearnLib wiki (has a small example showing a basic setup, as well as 
-  pointer to documentation on maven)
+  pointer to documentation on Maven)
   https://github.com/LearnLib/learnlib/wiki
 
 * An introduction to active automata learning 
