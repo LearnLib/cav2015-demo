@@ -237,7 +237,7 @@ public class LibAlfExamples implements CLITool {
 		
 		for (Map.Entry<String,DFALearningExample<?>> example : dfaExamples.entrySet()) {
 			String name = example.getKey();
-			File resultsFile = new File(outputDir, name + ".dat");
+			File resultsFile = new File(outputDir, "libalf-examples-" + name + ".dat");
 			try (PrintWriter pw = new PrintWriter(resultsFile)) { 
 				runExample(example.getKey(), example.getValue(), learners, repeatCount, pw);
 				System.out.println();

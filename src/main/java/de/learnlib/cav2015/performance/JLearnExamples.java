@@ -274,7 +274,7 @@ public class JLearnExamples implements CLITool {
 		
 		for (Map.Entry<String,MealyLearningExample<?,?>> example : mealyExamples.entrySet()) {
 			String name = example.getKey();
-			File resultsFile = new File(outputDir, name + ".dat");
+			File resultsFile = new File(outputDir, "jlearn-examples-" + name + ".dat");
 			try (PrintWriter pw = new PrintWriter(resultsFile)) { 
 				runExample(example.getKey(), example.getValue(), learners, repeatCount, pw);
 				System.out.println();
