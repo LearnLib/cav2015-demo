@@ -13,7 +13,8 @@ die() {
 	exit 1
 }
 
-ROOT="${HOME}/LearnLib-Demo"
+ROOT="${HOME}/LearnLib-Demo-Files"
+DEMO_HOME="${HOME}/LearnLib-Demo"
 
 info "Cleaning up machine after LearnLib demonstration. You may be prompted for your password."
 info "Press any key to begin, or press Ctrl+C to cancel."
@@ -21,6 +22,9 @@ read || die
 
 info "Deleting demonstration root ${ROOT}"
 rm -rf "${ROOT}" || die
+
+info "Deleting demonstration folder ${DEMO_HOME}"
+rm -rf "${DEMO_HOME}" || die
 
 info "Removing GraphVIZ"
 sudo apt-get -y -qq remove graphviz || die

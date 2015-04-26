@@ -13,7 +13,9 @@ die() {
 	exit 1
 }
 
-ROOT="${HOME}/LearnLib-Demo"
+ROOT="${HOME}/LearnLib-Demo-Files"
+
+DEMO_HOME="${HOME}/LearnLib-Demo"
 
 DOWNLOADS="${ROOT}/downloads"
 LOCAL="${ROOT}/local"
@@ -32,23 +34,23 @@ SOURCES="${ROOT}/Sources"
 
 AUTOMATALIB_SRC="${SOURCES}/automatalib"
 AUTOMATALIB_URL="https://github.com/misberner/automatalib.git"
-AUTOMATALIB_TAG="develop" # TODO change
+AUTOMATALIB_TAG="automatalib-0.5.2"
 
 LEARNLIB_SRC="${SOURCES}/learnlib"
 LEARNLIB_URL="https://github.com/LearnLib/learnlib.git"
-LEARNLIB_TAG="develop" # TODO change
+LEARNLIB_TAG="learnlib-0.11.2"
 
 LLALF_SRC="${SOURCES}/learnlib-libalf"
 LLALF_URL="https://github.com/LearnLib/learnlib-libalf.git"
-LLALF_TAG="develop" # TODO change
+LLALF_TAG="learnlib-libalf-0.11.2"
 
 LLJL_SRC="${SOURCES}/learnlib-jlearn"
 LLJL_URL="https://github.com/LearnLib/learnlib-jlearn.git"
-LLJL_TAG="develop" # TODO change
+LLJL_TAG="learnlib-jlearn-0.11.2"
 
 DEMO_SRC="${SOURCES}/learnlib-cav2015"
 DEMO_URL="https://github.com/LearnLib/cav2015-demo.git"
-DEMO_TAG="master" # TODO change
+DEMO_TAG="demo"
 
 ECLIPSE_FILENAME="eclipse-java-luna-SR2-linux-gtk-x86_64.tar.gz"
 ECLIPSE_URL="http://ftp.wh2.tu-dresden.de/pub/mirrors/eclipse/technology/epp/downloads/release/luna/SR2/${ECLIPSE_FILENAME}"
@@ -124,10 +126,10 @@ info "Cloning CAV2015 Demo into $DEMO_SRC"
 git clone --single-branch --depth 1 -b "$DEMO_TAG" "$DEMO_URL" "$DEMO_SRC" || die
 
 info "Building CAV2015 Demo"
-( cd "$DEMO_SRC" && git submodule init && git submodule update && "${MVN}" clean package ) || die
+( cd "$DEMO_SRC" && git submodule init && git submodule update && "${MVN}" clean package  && cp -r "target/learnlib-cav2015" "${DEMO_HOME}") || die
 
-info "All done - the CAV2015 demo should now be installed in ${DEMO_SRC}/target/learnlib-cav2015"
-info "An example LearnLib project can be found in ${DEMO_SRC}/target/learnlib-cav2015/example-project"
+info "All done - the CAV2015 demo should now be installed in ${DEMO_HOME}"
+info "An example LearnLib project can be found in ${DEMO_HOME}/example-project"
 info "Have fun trying out LearnLib!"
 
 info " ******** "
@@ -142,5 +144,5 @@ if [ "$ANS" == "y" ]; then
 	info "Adding symlink to Eclipse executable"
 	ln -s "${ECLIPSEEXE}" "${LOCALBIN}/eclipse"
 	info "Done, you should be able to start eclipse by running ${ECLIPSEEXE}."
-	info "Or, re-load your .bashrc (typing 'source .bashrc') and just enter 'eclipse'."
+	info "Or, re-load your .bashrc (typing 'source ~/.bashrc') and just enter 'eclipse'."
 fi
