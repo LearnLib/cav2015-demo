@@ -297,7 +297,51 @@ For plotting the results from the `libalf-examples` script, the Gnuplot script
 5. Source Demos
 ============================================================================
 
-[TODO] describe where to find the source demo and what its scope is 
+We provide a small maven-project with three coding examples that show 
+LearnLib is invoked from a user's project. The example project can be 
+found in folder '[TODO]'. Sources are in the 'src/' folder. The project 
+can be built with the commands:
+
+   cd [TODO]
+   mvn assembly:assembly
+   mvn 
+
+Example 1:
+----------
+File: de/learnlib/example/cav2015/coffee/Example1.java
+
+The example shows how a model of a simulated system (i.e., an automaton) 
+can be inferred while collecting some statistics. A detailed description is 
+provided in the source code comments. The example can be executed with 
+the following command (after building):
+
+   java -cp target/[TODO] de.learnlib.example.cav2015.coffee.Example1
+
+
+Example 2:
+----------
+File: de/learnlib/example/cav2015/coffee/Example2.java
+
+This example is a variation of the first example. We infer the same model. 
+Only this time we do not have to write the the code for learning the system.
+We simply use the 'Experiment' class, which is provided by LearnLib.
+The example can be executed with the following command (after building):
+
+   java -cp target/[TODO] de.learnlib.example.cav2015.coffee.Example2
+
+
+Example 3:
+----------
+File: de/learnlib/example/cav2015/stack/Example3.java
+
+In this final example, we infer a model of an actual Java class. LearnLib
+provides some facilities for inferring models of Java classes. The example
+shows that it only takes a few lines of code to connect a learning algorithm
+to a class. he example can be executed with the following command 
+(after building):
+
+   java -cp target/[TODO] de.learnlib.example.cav2015.coffee.Example2
+
 
 
 6. Pointers to more Documentation
