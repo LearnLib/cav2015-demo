@@ -45,7 +45,6 @@ import de.learnlib.jlearn.JLearnObservationPackMealy;
 import de.learnlib.jlearn.JLearnSplitterCreator;
 import de.learnlib.mealy.MealyUtil;
 import de.ls5.jlearn.algorithms.dhc.DHC;
-import de.ls5.jlearn.logging.LearnLog;
 
 public class JLearn {
 	public static abstract class Learner implements Comparable<Learner> {

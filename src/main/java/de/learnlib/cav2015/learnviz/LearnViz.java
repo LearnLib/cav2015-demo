@@ -428,7 +428,7 @@ public class LearnViz implements CLITool {
 		System.err.println(getName() + " - " + getDescription());
 		System.err.println("Usage:");
 		System.err.printf(" %s -h|-help\n   print this message and exit.\n", getName());
-		System.err.printf(" %s [<options>] <taf-file>\n   learn the automaton in the given TAF file", getName());
+		System.err.printf(" %s [<options>] <taf-file>\n   learn the automaton in the given TAF file\n", getName());
 		System.err.println("Possible options:");
 		System.err.println(" -i|-interactive\n   allow the user to enter counterexamples manually");
 		System.err.println(" -a|-algo <algorithm>\n   set the learning algorithm (lstar [default], rs, dt, ttt)");
@@ -470,10 +470,12 @@ public class LearnViz implements CLITool {
 		algo = algorithms.get(algoName);
 		if (algo == null) {
 			System.err.println("Fatal: unknown algorithm '" + algoName + "'");
+			printUsage();
 			System.exit(1);
 		}
 		if (tafFile == null) {
 			System.err.println("Fatal: no input TAF file specified");
+			printUsage();
 			System.exit(1);
 		}
 	}
@@ -485,9 +487,11 @@ public class LearnViz implements CLITool {
 			FiniteAlphabetAutomaton<?, ?, ?> automaton = TAFParser.parseAny(new File(tafFile), PrintStreamDiagnosticListener.getStderrDiagnosticListener());
 			topFrame = new JFrame();
 			topFrame.setLocationRelativeTo(null);
-			topFrame.setVisible(true);
+			topFrame.setVisible(false);
 			topFrame.setAlwaysOnTop(true);
 			algo.learn(automaton);
+			topFrame.dispose();
+			topFrame = null;
 			return true;
 		}
 		catch (TAFParseException ex) {

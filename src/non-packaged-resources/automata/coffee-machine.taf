@@ -10,9 +10,10 @@ mealy {clean, pod, water, button} {
 	// The options are optional, use 'initial' for the initial state.
 	// Initial state: clean, no pod, no water
 	a [initial] {
-		// A transition in the Mealy case have the form
+		// A transition in the Mealy case has the form
 		// <input> / <output> -> <target>
 		// The '/ <output>' part is optional, and can be omitted for quiescence
+		// Note: for DFAs, there must be no output part!
 		clean / ok -> a
 		pod / ok -> b
 		water / ok -> c

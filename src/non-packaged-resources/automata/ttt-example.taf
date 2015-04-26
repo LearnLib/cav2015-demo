@@ -2,7 +2,7 @@
  * An example that can be used to highlight the characteristics
  * of the TTT algorithm.
  */
-dfa {a,b} {
+dfa {a, b} {
 	q0 [initial] {
 		a -> q1
 		b -> q3

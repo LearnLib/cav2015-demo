@@ -132,7 +132,7 @@ public class LibAlfRandSeries implements CLITool {
 			"   Runs a series of experiments on randomly generated automata.\n" +
 			"   Options can be any of:\n" +
 			"    -l|-lower <num>     Set the lower state count limit (default: 10)\n" +
-			"    -u|-upper <num>     Set the upper state count  limit (exclusive," +
+			"    -u|-upper <num>     Set the upper state count  limit (exclusive,\n" +
 			"                        default: 1000)\n" +
 			"    -s|-step <num>      Set the state count stepping (default: 10)\n" +
 			"    -k|-alphabet-sizes <sizes>\n" +
