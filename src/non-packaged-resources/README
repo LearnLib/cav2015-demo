@@ -171,6 +171,33 @@ interactive mode was enabled, requesting them to enter counterexamples.
 4. Performance Evaluation
 ============================================================================
 
+The submitted paper itslef does not contain concrete performance results.
+This was criticized by the reviewers. We thus made performance results
+available to the reviewers and promised to include data in the final version. 
+We include a section of our rebuttal for your reference:
+
+=== BEGIN
+
+Performance Evaluation (reviews #2, #3): We had performed experiments 
+which were the basis of our claims. In the meantime we have made the 
+results available on the web page of LearnLib [1]. While we originally 
+wanted to emphasize only the architecture, design, and features in the 
+paper, the reviewers made a good point in that the performance is a very 
+important metric for potential users. We will thus include some key results 
+in the in the final version: We have compared LearnLib to LibAlf as well as 
+the former, closed-source version. We could not compare to AIDE (the project 
+would not build on a UNIX system using Mono). The comparison shows that for 
+moderately-sized systems and comparable algorithms, the open-source LearnLib 
+offers a speedup of at least one order of magnitude.
+
+[1]: http://learnlib.de/features/performance
+
+=== END
+
+The artifact contains the data we made available to the reviewers and the
+scripts that produce this data (see 2.2, or folder 'rebuttal/') to back 
+up the claims from the paper and the rebuttal.
+
 For evaluating the performance in comparison with other active automata
 learning libraries (we chose the old version of LearnLib, here called JLearn,
 and the LibAlf framework), we have written small programs that run the
