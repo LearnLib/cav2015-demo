@@ -112,4 +112,8 @@ info "Cloning CAV2015 Demo into $DEMO_SRC"
 git clone --single-branch --depth 1 -b "$DEMO_TAG" "$DEMO_URL" "$DEMO_SRC" || die
 
 info "Building CAV2015 Demo"
-( cd "$DEMO_SRC" && "${MVN}" clean package )
+( cd "$DEMO_SRC" && git submodule init && git submodule update && "${MVN}" clean package ) || die
+
+info "All done - the CAV2015 demo should now be installed in ${DEMO_SRC}/target/learnlib-cav2015"
+info "An example LearnLib project can be found in ${DEMO_SRC}/target/learnlib-cav2015/example-project"
+info "Have fun trying out LearnLib!"
