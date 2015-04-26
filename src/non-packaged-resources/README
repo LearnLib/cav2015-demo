@@ -95,6 +95,8 @@ This distribution contains the following files and directories:
     The script `tafview` renders and displays an automaton stored as a TAF
     file (GraphVIZ required). All other scripts are explained in the subsequent
     sections.
+- example-projects/
+    This folder contains an example project using LearnLib (cf. Section 5).
 - gnuplot-scripts/
     This folder contains scripts for Gnuplot to create the performance plots
     (cf. Section 4).
@@ -122,9 +124,19 @@ This section is for interested readers only. It assumes that you have Maven
 and git (http://git-scm.com/) installed, and are using a Unix-like operating
 system.
 
-The LearnLib Demo can also be compiled from its source. For this, execute the
-following steps in the command line:
+The LearnLib Demo can also be compiled from its source. However, two of the
+required libraries are not published to Maven central, because they contain
+third-party artifacts. For compiling the complete project from source, follow
+the following steps:
 
+   git clone https://github.com/LearnLib/learnlib-libalf.git
+   cd learnlib-libalf
+   mvn install
+   cd ..
+   git clone https://github.com/LearnLib/learnlib-jlearn.git
+   cd learnlib-jlearn
+   mvn install
+   cd ..
    git clone https://github.com/LearnLib/cav2015-demo.git
    cd cav2015-demo
    mvn package
@@ -280,7 +292,9 @@ The `...-examples` scripts should usually finish with 20-40 minutes each.
 For quicker results, reduce the repeat count. The commands
    ./bin/jlearn-examples -n 1 <output-dir>
    ./bin/libalf-examples -n 1 <output-dir>
-should usually finish within a handful of minutes each.
+should usually finish within a handful of minutes each. Note, however, that
+due to the architecture of the HotSpot JVM, results with only one repetition
+might be significantly distorted.
 
 After running, data files will have been stored in the specified output
 directory. They can be converted into plots in the following way (assuming
@@ -314,6 +328,12 @@ you install Eclipse, you can import the examples via
 
    - File > Import > Maven > Existing Maven project
    - Select folder `example-project`
+
+Additionally, it is useful to instruct Eclipse to download source and Javadoc
+archives via Maven. You can do so via
+
+   - Window > Preferences > Maven, check 'Download Artifact Sources' and
+     'Download Artifact Javadoc'
 
 Example 1:
 ----------

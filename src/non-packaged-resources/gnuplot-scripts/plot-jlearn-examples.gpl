@@ -17,7 +17,7 @@ set yrange [0:*]
 set xrange [-0.5:5]
 set offset 0, 0, graph 0.2, 0
 set terminal svg size 640,400 fname 'Verdana' fsize 14
-list=system('ls -1B libalf-examples-*.dat')
+list=system('ls -1B jlearn-examples-*.dat')
 
 do for [f in list] {
 	n=f[:strlen(f)-4]
