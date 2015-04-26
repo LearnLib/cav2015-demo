@@ -100,11 +100,19 @@ This distribution contains the following files and directories:
     (cf. Section 4).
 - lib/
     This folder contains the libraries used by the demonstration tool.
+- rebuttal/
+    This folder contains the performance data we made available to the reviewers
+    during the rebuttal, to back the performance claims we made in the paper.
+    Use the file `performance.html` as a starting point. This data can also be
+    found online, under `http://learnlib.de/features/performance`. 
 - CAV_2015_submission_212.pdf
     The LearnLib paper, as submitted to CAV.
 - learnlib-cav2015.jar
     The main JAR file containing the tool logic. Do not execute this JAR file
     directly, always use the scripts in the bin/ directory.
+- learnlib.properties
+    Miscellaneous settings for the tools contained in this package. See the
+    file itself for a documented list of options.
 - README
     This file.
 
