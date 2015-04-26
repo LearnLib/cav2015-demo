@@ -73,7 +73,7 @@ import de.learnlib.oracles.SimulatorOracle;
 
 public class LearnViz implements CLITool {
 	
-	private final JFrame topFrame;
+	private JFrame topFrame = null;
 	
 	private abstract class Algo {
 		@SuppressWarnings("unchecked")
@@ -412,12 +412,6 @@ public class LearnViz implements CLITool {
 		algorithms.put("rs", new AlgoRS());
 		algorithms.put("dt", new AlgoDT());
 		algorithms.put("ttt", new AlgoTTT());
-		
-
-		topFrame = new JFrame();
-		topFrame.setLocationRelativeTo(null);
-		topFrame.setVisible(true);
-		topFrame.setAlwaysOnTop(true);
 	}
 	
 	@Override
@@ -489,6 +483,10 @@ public class LearnViz implements CLITool {
 		parseOptions(args);
 		try {
 			FiniteAlphabetAutomaton<?, ?, ?> automaton = TAFParser.parseAny(new File(tafFile), PrintStreamDiagnosticListener.getStderrDiagnosticListener());
+			topFrame = new JFrame();
+			topFrame.setLocationRelativeTo(null);
+			topFrame.setVisible(true);
+			topFrame.setAlwaysOnTop(true);
 			algo.learn(automaton);
 			return true;
 		}

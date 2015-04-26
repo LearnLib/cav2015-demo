@@ -5,18 +5,42 @@
 
 	<groupId>de.learnlib.cav2015</groupId>
 	<artifactId>learnlib-cav2015</artifactId>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	
-	<parent>
-		<groupId>de.learnlib</groupId>
-		<artifactId>learnlib-parent</artifactId>
-		<version>0.11.2-SNAPSHOT</version>
-	</parent>
-	
+		
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
 		<clitools.version>0.0.1</clitools.version>
 		<learnlib.version>0.11.2-SNAPSHOT</learnlib.version>
+		<install.dir>${project.build.directory}/install/${project.name}</install.dir>
+
+
+		<dependency-plugin.version>2.10</dependency-plugin.version>
+		<copy-rename-plugin.version>1.0</copy-rename-plugin.version>
+		<jar-plugin.version>2.6</jar-plugin.version>
+		<resources-plugin.version>2.7</resources-plugin.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>de.learnlib</groupId>
+				<artifactId>learnlib-parent</artifactId>
+				<version>${learnlib.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>de.learnlib.testsupport</groupId>
+				<artifactId>learnlib-learning-examples</artifactId>
+				<version>${learnlib.version}</version>
+				<scope>compile</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 
 	<dependencies>
 		<dependency>
@@ -62,7 +86,6 @@
 		<dependency>
 			<groupId>de.learnlib.testsupport</groupId>
 			<artifactId>learnlib-learning-examples</artifactId>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.automatalib</groupId>
@@ -102,6 +125,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>${jar-plugin.version}</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -109,12 +133,17 @@
 							<classpathPrefix>lib/</classpathPrefix>
 							<mainClass>de.learnlib.cav2015.LearnlibTool</mainClass>
 						</manifest>
+						<manifestEntries>
+							<Class-Path>.</Class-Path>
+						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${dependency-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
@@ -124,10 +153,64 @@
 						</goals>
 						<configuration>
 							<useBaseVersion>false</useBaseVersion>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<outputDirectory>${install.dir}/lib</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.coderplus.maven.plugins</groupId>
+				<artifactId>copy-rename-maven-plugin</artifactId>
+				<version>${copy-rename-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>rename-jar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>rename</goal>
+						</goals>
+						<configuration>
+							<sourceFile>${project.build.directory}/${project.build.finalName}.jar</sourceFile>
+							<destinationFile>${install.dir}/${project.name}.jar</destinationFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${resources-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>install-resources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${install.dir}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/non-packaged-resources</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptors>
+						<descriptor>src/main/assembly/bin.xml</descriptor>
+						<descriptor>src/main/assembly/zip.xml</descriptor>
+					</descriptors>
+					<finalName>${project.name}</finalName>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -1,3 +1,9 @@
+# This Gnuplot script plots a bar chart for a performance comparison
+# between selected algorithms from LearnLib and LibAlf on a *single* example.
+# For each <name>.dat file in the current directory, a file <name>-time.svg
+# is created, plotting the runtimes, and <name>-queries.svg, plotting the
+# number of required membership queries.
+
 set xtics ("L*" 0.25, "L*Col" 1.25, "RS" 2.25, "KV" 3.25, "KVB" 4.25)
 
 set boxwidth 0.4

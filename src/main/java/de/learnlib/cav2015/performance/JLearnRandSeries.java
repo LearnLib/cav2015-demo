@@ -272,7 +272,7 @@ public class JLearnRandSeries implements CLITool {
 		
 		for (int alphabetSize : alphabetSizes) {
 			System.out.println("Running series for alphabet size " + alphabetSize);
-			File outFile = new File("jlearn-randseries-" + alphabetSize + ".dat");
+			File outFile = new File(outputDir, "jlearn-randseries-" + alphabetSize + ".dat");
 			System.out.println("Writing results to file " + outFile);
 			try (PrintWriter pw = new PrintWriter(outFile)) {
 				for (int numStates = low; numStates < high; numStates += step) {
