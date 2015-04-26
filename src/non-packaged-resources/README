@@ -171,7 +171,7 @@ interactive mode was enabled, requesting them to enter counterexamples.
 4. Performance Evaluation
 ============================================================================
 
-The submitted paper itslef does not contain concrete performance results.
+The submitted paper itself does not contain concrete performance results.
 This was criticized by the reviewers. We thus made performance results
 available to the reviewers and promised to include data in the final version. 
 We include a section of our rebuttal for your reference:
@@ -195,8 +195,8 @@ offers a speedup of at least one order of magnitude.
 === END
 
 The artifact contains the data we made available to the reviewers and the
-scripts that produce this data (see 2.2, or folder 'rebuttal/') to back 
-up the claims from the paper and the rebuttal.
+scripts that produce this data (see Section 2.2, or folder 'rebuttal/') to
+back up the claims from the paper and the rebuttal.
 
 For evaluating the performance in comparison with other active automata
 learning libraries (we chose the old version of LearnLib, here called JLearn,
@@ -299,17 +299,21 @@ For plotting the results from the `libalf-examples` script, the Gnuplot script
 
 We provide a small maven-project with three coding examples that show 
 LearnLib is invoked from a user's project. The example project can be 
-found in folder '[TODO]'. Sources are in the 'src/' folder. 
+found in folder `example-project`. Sources are in the `src/main/java` folder.
 
-In the VM we included the Ecipse IDE for Java for studying and executing 
+This project uses Maven for its dependency management (see Section 2.1).
+The most convenient option is to use a Java IDE that supports Maven out of
+the box, such as Eclipse (http://eclipse.org/).
+
+In the VM we included the Eclipse IDE for Java for studying and executing 
 the examples. The project is already imported in Eclipse for your convenience.
-If you have downoaded the ZIP-file, you need to install Eclipse in order 
-to run the examples (you can still look at the code with a simple text 
-editor though). In case you install Eclipse, you can import the examples
-via
+If you have downloaded the ZIP-file, you need to install Eclipse for Java
+(http://eclipse.org/downloads/) in order to conveniently edit the examples
+(you can still look at the code with a simple text editor though). In case
+you install Eclipse, you can import the examples via
 
-   - file > import > existing maven project.
-   - select folder [TODO]
+   - File > Import > Maven > Existing Maven project
+   - Select folder `example-project`
 
 Example 1:
 ----------
@@ -317,8 +321,14 @@ File: de/learnlib/example/cav2015/coffee/Example1.java
 
 The example shows how a model of a simulated system (i.e., an automaton) 
 can be inferred while collecting some statistics. A detailed description is 
-provided in the source code comments. The example can be executed via 
-the context menu (Run as [TODO]).
+provided in the source code comments. The example can be executed by
+right-clicking on the file `Example1.java` in the package explorer (left),
+and then selecting `Run As > Java Application` in the context menu.
+Alternatively, you can run it from the command line using Maven (from
+the root of the project):
+
+   mvn exec:java -DmainClass=de.learnlib.example.cav2015.coffee.Example1
+
 
 Example 2:
 ----------
@@ -327,7 +337,10 @@ File: de/learnlib/example/cav2015/coffee/Example2.java
 This example is a variation of the first example. We infer the same model. 
 Only this time we do not have to write the the code for learning the system.
 We simply use the 'Experiment' class, which is provided by LearnLib.
-The example can be executed via the context menu (Run as [TODO]).
+The example can be executed via the context menu as well (see above). The
+command line for running it via Maven is:
+
+   mvn exec:java -DmainClass=de.learnlib.example.cav2015.coffee.Example2
 
 Example 3:
 ----------
@@ -336,7 +349,9 @@ File: de/learnlib/example/cav2015/stack/Example3.java
 In this final example, we infer a model of an actual Java class. LearnLib
 provides some facilities for inferring models of Java classes. The example
 shows that it only takes a few lines of code to connect a learning algorithm
-to a class. The example can be executed via the context menu (Run as [TODO]).
+to a class. The example can be executed via the context menu, or via Maven:
+
+   mvn exec:java -DmainClass=de.learnlib.example.cav2015.coffee.Example3
 
 
 6. Pointers to more Documentation
@@ -361,11 +376,4 @@ to a class. The example can be executed via the context menu (Run as [TODO]).
 * An introduction to active automata learning 
   http://learnlib.de/wp-content/uploads/2013/05/introduction-to-automata-learning-sfm2011.pdf 
  
-
-
-
-
-
-
-
 
