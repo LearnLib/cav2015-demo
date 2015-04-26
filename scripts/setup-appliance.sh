@@ -18,6 +18,8 @@ ROOT="${HOME}/LearnLib-Demo"
 DOWNLOADS="${ROOT}/downloads"
 LOCAL="${ROOT}/local"
 
+LOCALBIN="${LOCAL}/bin"
+
 # Apache Maven
 MAVEN_VERSION="3.3.1"
 MAVEN_BASENAME="apache-maven-${MAVEN_VERSION}"
@@ -48,6 +50,12 @@ DEMO_SRC="${SOURCES}/learnlib-cav2015"
 DEMO_URL="https://github.com/LearnLib/cav2015-demo.git"
 DEMO_TAG="master" # TODO change
 
+ECLIPSE_FILENAME="eclipse-java-luna-SR2-linux-gtk-x86_64.tar.gz"
+ECLIPSE_URL="http://ftp.wh2.tu-dresden.de/pub/mirrors/eclipse/technology/epp/downloads/release/luna/SR2/${ECLIPSE_FILENAME}"
+ECLIPSEPATH="${LOCAL}/eclipse"
+ECLIPSEEXE="${ECLIPSEPATH}/eclipse"
+
+
 info "Setting up machine for LearnLib demonstration. You may be prompted for your password."
 info "Press any key to begin, or press Ctrl+C to cancel."
 read || die
@@ -60,6 +68,12 @@ info "Creating downloads folder $DOWNLOADS"
 mkdir -p "$DOWNLOADS" || die
 info "Creating local installation directory $LOCAL"
 mkdir -p "$LOCAL" || die
+mkdir -p "$LOCALBIN" || die
+
+info "Adding local binary directory ${LOCALBIN} to PATH in ~/.bashrc"
+echo 'export PATH="$PATH:'"${LOCALBIN}"'"' >>~/.bashrc || die
+echo "Reloading ~/.bashrc"
+source ~/.bashrc || die
 
 info "Installing GraphVIZ"
 sudo apt-get -y -qq install graphviz || die
@@ -77,10 +91,8 @@ wget -O "${DOWNLOADS}/${MAVEN_BASENAME}-bin.tar.gz" "http://mirrors.sonic.net/ap
 info "Unpacking Apache Maven ${MAVEN_VERSION} to ${MAVEN_INSTALL}"
 tar xCfz "${LOCAL}" "${DOWNLOADS}/${MAVEN_BASENAME}-bin.tar.gz" || die
 
-info "Adding Maven binary directory ${MAVEN_BIN} to PATH in ~/.bashrc"
-echo 'export PATH="$PATH:'"${MAVEN_BIN}"'"' >>~/.bashrc || die
-echo "Reloading ~/.bashrc"
-source ~/.bashrc || die
+info "Adding symlink to mvn executable"
+ln -s "${MVN}" "${LOCALBIN}/mvn"
 
 info "Creating source folder $SOURCES"
 
@@ -117,3 +129,18 @@ info "Building CAV2015 Demo"
 info "All done - the CAV2015 demo should now be installed in ${DEMO_SRC}/target/learnlib-cav2015"
 info "An example LearnLib project can be found in ${DEMO_SRC}/target/learnlib-cav2015/example-project"
 info "Have fun trying out LearnLib!"
+
+info " ******** "
+info "Optionally, you can also download Eclipse for Java, to get started with the LearnLib examples."
+info "Enter 'y' to download and install Eclipse for Java."
+read -n 1 -p 'Download and install Eclipse [N/y]?' ANS
+if [ "$ANS" == "y" ]; then
+	info "Downloading Eclipse for Java"
+	wget "$ECLIPSE_URL" -O "${DOWNLOADS}/${ECLIPSE_FILENAME}" || die
+	info "Extracting Eclipse to ${ECLIPSEPATH}"
+	tar xCfz "${LOCAL}" "${DOWNLOADS}/${ECLIPSE_FILENAME}"
+	info "Adding symlink to Eclipse executable"
+	ln -s "${ECLIPSEEXE}" "${LOCALBIN}/eclipse"
+	info "Done, you should be able to start eclipse by running ${ECLIPSEEXE}."
+	info "Or, re-load your .bashrc (typing 'source .bashrc') and just enter 'eclipse'."
+fi
