@@ -131,9 +131,6 @@
 							<classpathPrefix>lib/</classpathPrefix>
 							<mainClass>de.learnlib.cav2015.LearnlibTool</mainClass>
 						</manifest>
-						<manifestEntries>
-							<Class-Path>.</Class-Path>
-						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
